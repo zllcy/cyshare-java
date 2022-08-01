@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zllcy.cysharejava.mapper.VideoMapper">
+
+    <insert id="insertVideo" useGeneratedKeys="true" keyProperty="video.id">
+        insert into video(username, filename, title, category, label, language, year, description, cover)
+        values (#{video.username}, #{video.filename}, #{video.title}, #{video.category}, #{labelId},
+        #{video.language}, #{video.year}, #{video.description}, #{video.cover})
+    </insert>
+
+    <delete id="deleteVideo" parameterType="Integer">
+        delete from video where id = #{id}
+    </delete>
+
+    <update id="updateVideo">
+        update video
+        set title = #{video.title}, category = #{video.category}, label = #{labelId}, language = #{video.language},
+        year = #{video.year}, description = #{video.description}
+        where id = #{video.id} and username = #{video.username}
+    </update>
+
+    <select id="listVideo" resultType="Video">
+        select video.id, video.username, video.filename, video.title, video.category,
+        label.name, video.language, video.year, video.description, video.cover
+        from video, label where video.label = label.id
+    </select>
+
+    <select id="searchVideo" parameterType="Integer" resultType="Video">
+        select video.id, video.username, video.filename, video.title, video.category,
+        label.name, video.language, video.year, video.description, video.cover
+         from video, label where video.id = #{id} and video.label = label.id
+    </select>
+
+    <select id="listVideoByUsername" resultType="Video" parameterType="String">
+        select video.id, video.username, video.filename, video.title, video.category,
+        label.name, video.language, video.year, video.description, video.cover
+        from video, label where username = #{username} and video.label = label.id
+    </select>
+
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zllcy.cysharejava.mapper.AudioMapper">
+
+    <insert id="insertAudio" useGeneratedKeys="true" keyProperty="audio.id">
+        insert into audio(username, filename, song, singer, style, language, year, description)
+        values (#{audio.username}, #{audio.filename}, #{audio.song}, #{singerId}, #{audio.style}, #{audio.language},
+        #{audio.year}, #{audio.description})
+    </insert>
+
+    <delete id="deleteAudio" parameterType="Integer">
+        delete from audio where id = #{id}
+    </delete>
+
+    <update id="updateAudio">
+        update audio
+        set song = #{audio.song}, singer = #{singerId},style = #{audio.style}, language = #{audio.language},
+        year = #{audio.year}, description = #{audio.description}
+        where id = #{audio.id} and username = #{audio.username}
+    </update>
+
+    <select id="listAudio" resultType="Audio">
+        select audio.id, audio.username, audio.filename, audio.song, singer.name, audio.style,
+        audio.language, audio.year, audio.description
+        from audio, singer where audio.singer = singer.id
+    </select>
+
+    <select id="searchAudio" parameterType="Integer" resultType="Audio">
+        select audio.id, audio.username, audio.filename, audio.song, singer.name, audio.style,
+        audio.language, audio.year, audio.description
+        from audio, singer where id = #{id} and audio.singer = singer.id
+    </select>
+
+    <select id="listAudioByUsername" resultType="audio" parameterType="String">
+        select audio.id, audio.username, audio.filename, audio.song, singer.name, audio.style,
+        audio.language, audio.year, audio.description
+        from audio, singer where username = #{username} and audio.singer = singer.id
+    </select>
+
+</mapper>
